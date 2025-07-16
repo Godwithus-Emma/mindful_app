@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mindful_app/data/sp_helper.dart'; 
+import 'package:mindful_app/data/sp_helper.dart';
+import 'package:mindful_app/screens/quote_screen.dart'; 
 import 'package:mindful_app/screens/settings_screen.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Align(
             alignment: const Alignment(0, -0.5),
               child: Text(
-            'Welcome $name',
+            'Welcome, $name',
             style: const TextStyle(
               color: Colors.white,
               shadows: [Shadow(
@@ -58,7 +59,7 @@ class _IntroScreenState extends State<IntroScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (BuildContext contenxt) => const SettingsScreen())
+                    builder: (BuildContext contenxt) => const QuoteScreen())
                 );
               }, 
               child: const Text('Start')),
