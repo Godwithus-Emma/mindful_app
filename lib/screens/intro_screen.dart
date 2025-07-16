@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindful_app/data/sp_helper.dart';
+import 'package:mindful_app/screens/quote_screen.dart';
 import 'package:mindful_app/screens/settings_screen.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -58,8 +59,8 @@ class _IntroScreenState extends State<IntroScreen> {
           Align(
             alignment: Alignment(0, 0.5),
             child: ElevatedButton(onPressed: () {
-              Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => SettingsScreen())
+              Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => IntroScreen())
               );
             }, 
             child: Text('Start')),

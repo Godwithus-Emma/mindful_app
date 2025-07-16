@@ -37,8 +37,8 @@ class SPHelper {
     keyName: name,
     keyImage: image
   };
-  } on Exception catch (e) {
-    print('Error retrieving settings: $e');
+  } on Exception catch (_) {
+   //print('Error retrieving settings: $e');
     return {};
   }
   }
