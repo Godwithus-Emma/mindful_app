@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mindful_app/data/sp_helper.dart';
+import 'package:mindful_app/data/sp_helper.dart'; 
 import 'package:mindful_app/screens/settings_screen.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -11,59 +11,58 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   String name = '';
-  String image = '';
+  String image = 'Lake';
+
   @override
   void initState() {
     super.initState();
-    final spHelper = SPHelper();
-    spHelper.getSettings().then((settings) {
+    final helper = SPHelper();
+    helper.getSettings().then((settings) {
+      name = settings['name'] ?? '';
+      image = settings['image'] ?? 'Lake';
+      if (image == '') image = 'Lake';
       setState(() {
-        name = settings[SPHelper.keyName] ?? '';
-        image = settings[SPHelper.keyImage] ?? 'Lake';
+        
       });
     });
-    // Load settings if needed
-    // SPHelper().getSettings().then((settings) {
-    //   setState(() {
-    //     name = settings['name'] ?? '';
-    //     image = settings['image'] ?? '';
-    //   });
-    // });
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset('assets/$image.jpg', fit: BoxFit.cover),
-          ),
+              child: Image.asset(
+            'assets/$image.jpg',
+            fit: BoxFit.cover,
+          )),
           Align(
-            alignment: Alignment(0, -0.5),
-            child: Text(
-              'Welcome $name',
-              style: TextStyle(
-                color: Colors.white,
-                shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 10,
-                    offset: Offset(5, 5),
-                  ),
-                ],
-                fontSize: 24,
-              ),
-            ),
-          ),
+            alignment: const Alignment(0, -0.5),
+              child: Text(
+            'Welcome $name',
+            style: const TextStyle(
+              color: Colors.white,
+              shadows: [Shadow(
+                blurRadius: 10,
+                color: Colors.black,
+                offset: Offset(5, 5)
+              )],
+              fontSize: 24),
+
+          )),
           Align(
-            alignment: Alignment(0, 0.5),
-            child: ElevatedButton(onPressed: () {
-              Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => SettingsScreen())
-              );
-            }, 
-            child: Text('Start')),
-          ),
+            alignment: const Alignment(0, 0.5),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext contenxt) => const SettingsScreen())
+                );
+              }, 
+              child: const Text('Start')),
+          )
         ],
       ),
     );

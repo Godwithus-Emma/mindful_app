@@ -13,6 +13,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final List<String> images = ['Lake', 'Sea', 'Mountain', 'Country'];
   String selectedImage = 'Lake';
   final SPHelper spHelper = SPHelper();
+
   @override
   initState() {
     super.initState();
@@ -40,9 +41,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               }).toList(),
               onChanged: (newValue) {
-                setState(() {
-                  selectedImage = newValue ?? 'Lake';
-                });
+                if (newValue != null && images.contains(newValue)) {
+                  setState(() {
+                    selectedImage = newValue;
+                  });
+                }
               },
             ),
           ],
@@ -50,9 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final messenger = ScaffoldMessenger.of(
-            context,
-          ); 
+          final messenger = ScaffoldMessenger.of(context);
 
           bool success = await saveSettings();
 
@@ -76,16 +77,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<bool> saveSettings() async {
     return await spHelper.saveString(txtName.text, selectedImage);
-    //print('Name: ${txtName.text}, Selected Image: $selectedImage');
   }
 
   Future loadSettings() async {
     final settings = await spHelper.getSettings();
     setState(() {
       txtName.text = settings[SPHelper.keyName] ?? '';
-      selectedImage = settings[SPHelper.keyImage] ?? 'Lake';
+      selectedImage = (images.contains(settings[SPHelper.keyImage])
+          ? settings[SPHelper.keyImage]
+          : 'Lake')!;
     });
   }
+
   @override
   void dispose() {
     txtName.dispose();

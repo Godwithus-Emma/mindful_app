@@ -31,14 +31,13 @@ class SPHelper {
   Future<Map<String, String>> getSettings() async {
   final prefs = await _instance;
   final String name = prefs.getString(keyName) ?? '';
-  final String image =  prefs.getString(keyImage) ?? '';
+  final String image =  prefs.getString(keyImage) ?? ''; 
   try {
   return {
     keyName: name,
     keyImage: image
   };
-  } on Exception catch (e) {
-    print('Error retrieving settings: $e');
+  } on Exception catch (_) { 
     return {};
   }
   }
