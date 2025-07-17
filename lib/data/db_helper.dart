@@ -32,6 +32,12 @@ class DBHelper {
 
   Future<int> insertVerse(BibleVerse verse) async {
     try {
+      if (verse.id != null) {
+        return verse.id!; // If the verse already has an ID, return it
+      }
+      if (verse.text.isEmpty) {
+        return -1; // Return -1 or handle the error as needed
+      }
       Database db = await _database;
       return await store.add(db, verse.toMap());
     } on Exception catch (_) {

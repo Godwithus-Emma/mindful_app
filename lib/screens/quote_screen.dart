@@ -55,12 +55,38 @@ BibleVerse verse = BibleVerse(text: '');
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } 
-        else if (snapshot.hasError) {
+        else if (snapshot.hasError || snapshot.data == null) {
           return Center(
-            child: Text('Error: ${snapshot.error}'));
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  Text(
+                    'An error occurred while fetching the quote.',
+                    style: const TextStyle(fontSize: 24, fontStyle: FontStyle.italic, color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    fetchQuote().then((value) {
+                      if (value == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Failed to fetch a new quote.')),
+                        );
+                        return;
+                      }
+                      verse = value!;
+                      setState(() {});
+                    });
+                  },
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+            );
         }
         else{
-          verse = snapshot.data as BibleVerse;
+          verse = snapshot.data!;
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +103,7 @@ BibleVerse verse = BibleVerse(text: '');
                 ElevatedButton(
                   onPressed: () {
                     fetchQuote().then((value) {
-                      verse = value;
+                      verse = value!;
                       setState(() {});
                     });
                   },
@@ -105,18 +131,18 @@ BibleVerse verse = BibleVerse(text: '');
     );
   }
 
-  Future fetchQuote() async {
+  Future<BibleVerse?>  fetchQuote() async {
     try {
       final response = await http.get(Uri.parse(address));
       if (response.statusCode == 200) {
-        final quoteJson = jsonDecode(response.body);
+        final quoteJson = jsonDecode(response.body); 
         BibleVerse quote = BibleVerse.fromMap(quoteJson);
         return quote; // Assuming the body contains the quote
       } else {
-        throw Exception('Failed to load quote');
+        return null;
       }
     } catch (e) {
-      return 'Error fetching quote: $e';
+      return null;
     }
   }
   void goToList() {

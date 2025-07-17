@@ -62,7 +62,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     builder: (BuildContext contenxt) => const QuoteScreen())
                 );
               }, 
-              child: const Text('Start')),
+              child: const Text('Get Started')),
           )
         ],
       ),

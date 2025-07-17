@@ -8,7 +8,7 @@ class QuotesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Quotes List")),
+      appBar: AppBar(title: const Text("Favourites")),
       body: FutureBuilder<List<BibleVerse>>(
         future: fetchQuotes(),
         builder: (context, snapshot) {
@@ -29,12 +29,17 @@ class QuotesListScreen extends StatelessWidget {
                   onDismissed: (_) {
                     DBHelper helper = DBHelper();
                     helper.deleteVerse(quote.id!);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Quote deleted')),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('Quote deleted')));
                   },
-                  child: ListTile(
-                    title: Text(quote.text),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey, width: 0.5),
+                      ),
+                    ),
+                    child: ListTile(title: Text(quote.text)),
                   ),
                 );
               },

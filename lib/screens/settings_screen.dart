@@ -30,7 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             TextField(
               controller: txtName,
-              decoration: InputDecoration(hintText: 'Enter your name'),
+              decoration: InputDecoration(hintText: 'Enter Your display name and select a background'),
             ),
             DropdownButton<String>(
               value: selectedImage,
@@ -63,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SnackBar(
               content: Text(
                 success
-                    ? 'Settings saved successfully!'
+                    ? 'Settings saved, kindly restart to see changes.'
                     : 'Failed to save settings.',
               ),
               duration: const Duration(seconds: 3),
